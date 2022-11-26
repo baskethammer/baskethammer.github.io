@@ -50,16 +50,13 @@ MACAddress=a8:a1:59:3f:b2:7b
 Description="Middle Port"
 Name=test0
 ```
-wut
 
 2. 15-test0.network:
 ```yaml
 [Match]
 Name=test0
-
 [Network]
 Bridge=tbr0
-
 [BridgeVLAN]
 VLAN=2-4094
 ```
@@ -69,7 +66,6 @@ VLAN=2-4094
 [NetDev]
 Name=tbr0
 Kind=bridge
-
 [Bridge]
 DefaultPVID=1
 VLANFiltering=true
@@ -80,10 +76,8 @@ STP=false
 ```yaml
 [Match]
 Name=tbr0
-
 [Network]
 VLAN=direct
-
 [BridgeVLAN]
 VLAN=2-4094
 ```
