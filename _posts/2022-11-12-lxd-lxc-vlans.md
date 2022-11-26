@@ -42,7 +42,7 @@ and
 can get us sorted.  Briefly:
 
 1.  Our 10-testlan.link file looks like this:
-```YAML
+```yaml
 [Match]
 #OriginalName=enp3s0
 MACAddress=a8:a1:59:3f:b2:7b
@@ -51,7 +51,7 @@ Description="Middle Port"
 Name=test0
 ```
 2. 15-test0.network:
-```YAML
+```yaml
 [Match]
 Name=test0
 
@@ -62,7 +62,7 @@ Bridge=tbr0
 VLAN=2-4094
 ```
 3. Our 20-testbridge.netdev file looks like this:
-```YAML
+```yaml
 [NetDev]
 Name=tbr0
 Kind=bridge
@@ -73,7 +73,7 @@ VLANFiltering=true
 STP=false
 ```
 4. ...and 30-testbridge.network
-```YAML
+```yaml
 [Match]
 Name=tbr0
 
