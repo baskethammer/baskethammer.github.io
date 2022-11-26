@@ -16,7 +16,7 @@ merry way.
 
 Of course now that I have the brocade, I need to split the containers by
 vlan to be available for all users (plex), non-guest users (samba) and just
-me (linux iso downloading apps).  Initial googling (" suggested a whole bunch
+me (linux iso downloading apps).  Initial googling suggested a whole bunch
 of new vlan interfaces, and bridges on each, which seemed dumb.  Deeper
 googling suggested that vlan-aware bridges are a thing, and
 VLANFiltering=true is probably the magic incantation.
@@ -34,7 +34,7 @@ physical location [top, bottom, etc, but 'test0' for this exercise]).
 
 This [helpful
 discussion](https://discuss.linuxcontainers.org/t/lxd-containers-on-a-vlan-aware-bridge/14734/2)
-above link isn't quite enough to infer the correct incantations without
+ isn't quite enough to infer the correct incantations without
 bonding multiple interfaces, but the man pages for [systemd.link](https://www.freedesktop.org/software/systemd/man/systemd.link.html),
 [systemd.netdev](https://www.freedesktop.org/software/systemd/man/systemd.netdev.html),
 and
@@ -62,7 +62,7 @@ Bridge=tbr0
 VLAN=2-4094
 
 ```
-2. Our 20-testbridge.netdev file looks like this:
+3. Our 20-testbridge.netdev file looks like this:
 ```YAML
 [NetDev]
 Name=tbr0
@@ -73,7 +73,7 @@ DefaultPVID=1
 VLANFiltering=true
 STP=false
 ```
-   3. and 30-testbridge.network
+4. ...and 30-testbridge.network
 ```YAML
 [Match]
 Name=tbr0
