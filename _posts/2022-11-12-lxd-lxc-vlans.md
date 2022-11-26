@@ -50,6 +50,7 @@ MACAddress=a8:a1:59:3f:b2:7b
 Description="Middle Port"
 Name=test0
 ```
+
 2. 15-test0.network:
 ```yaml
 [Match]
@@ -61,6 +62,7 @@ Bridge=tbr0
 [BridgeVLAN]
 VLAN=2-4094
 ```
+
 3. Our 20-testbridge.netdev file looks like this:
 ```yaml
 [NetDev]
@@ -72,6 +74,7 @@ DefaultPVID=1
 VLANFiltering=true
 STP=false
 ```
+
 4. ...and 30-testbridge.network
 ```yaml
 [Match]
