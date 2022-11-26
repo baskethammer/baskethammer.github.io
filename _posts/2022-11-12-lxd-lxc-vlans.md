@@ -60,7 +60,6 @@ Bridge=tbr0
 
 [BridgeVLAN]
 VLAN=2-4094
-
 ```
 3. Our 20-testbridge.netdev file looks like this:
 ```YAML
