@@ -7,50 +7,50 @@ tags:
   - LXD
   - Networking
 ---
-    I'm old and scared of NetworkManager, so when installing the primary server
-    on my home network the newer methods of network configuration were axed, and
-    /etc/network/interfaces reinstated to its former glory.  Since every bit of
-    kit was on the same subnet, it made sense to just create a bridge on a fixed
-    ip, then start up the lxd containers on the bridge and let them go on their
-    merry way.
+I'm old and scared of NetworkManager, so when installing the primary server
+on my home network the newer methods of network configuration were axed, and
+/etc/network/interfaces reinstated to its former glory.  Since every bit of
+kit was on the same subnet, it made sense to just create a bridge on a fixed
+ip, then start up the lxd containers on the bridge and let them go on their
+merry way.
 
-    Of course now that I have the brocade, I need to split the containers by
-    vlan to be available for all users (plex), non-guest users (samba) and just
-    me (linux iso downloading apps).  Initial googling (" suggested a whole bunch
-    of new vlan interfaces, and bridges on each, which seemed dumb.  Deeper
-    googling suggested that vlan-aware bridges are a thing, and
-    VLANFiltering=true is probably the magic incantation.
+Of course now that I have the brocade, I need to split the containers by
+vlan to be available for all users (plex), non-guest users (samba) and just
+me (linux iso downloading apps).  Initial googling (" suggested a whole bunch
+of new vlan interfaces, and bridges on each, which seemed dumb.  Deeper
+googling suggested that vlan-aware bridges are a thing, and
+VLANFiltering=true is probably the magic incantation.
 
-    To be clear, I want one bridge with access to several bridged vlans. I do
-    not want to create a bunch of individual vlans and bridges.
+To be clear, I want one bridge with access to several bridged vlans. I do
+not want to create a bunch of individual vlans and bridges.
 
-    Further sleuthing reveals a crossroads-  one can either migrate from ifupdown
-    to ifupdown2, which has drop-in bridging for this use case, or go back to
-    native ubuntu tools (NetworkManager [gah!] or systemd-networkd.  I choose
-    the latter for no reason but it would be fun to rename the interfaces by
-    physical location [top, bottom, etc, but 'test0' for this exercise]).
+Further sleuthing reveals a crossroads-  one can either migrate from ifupdown
+to ifupdown2, which has drop-in bridging for this use case, or go back to
+native ubuntu tools (NetworkManager [gah!] or systemd-networkd.  I choose
+the latter for no reason but it would be fun to rename the interfaces by
+physical location [top, bottom, etc, but 'test0' for this exercise]).
 
 
 
-    This [helpful
-    discussion](https://discuss.linuxcontainers.org/t/lxd-containers-on-a-vlan-aware-bridge/14734/2)
-    above link isn't quite enough to infer the correct incantations without
-    bonding multiple interfaces, but the man pages for [systemd.link](https://www.freedesktop.org/software/systemd/man/systemd.link.html),
-    [systemd.netdev](https://www.freedesktop.org/software/systemd/man/systemd.netdev.html),
-    and
-    [systemd.network](https://www.freedesktop.org/software/systemd/man/systemd.netdev.html)
-    can get us sorted.  Briefly:
+This [helpful
+discussion](https://discuss.linuxcontainers.org/t/lxd-containers-on-a-vlan-aware-bridge/14734/2)
+above link isn't quite enough to infer the correct incantations without
+bonding multiple interfaces, but the man pages for [systemd.link](https://www.freedesktop.org/software/systemd/man/systemd.link.html),
+[systemd.netdev](https://www.freedesktop.org/software/systemd/man/systemd.netdev.html),
+and
+[systemd.network](https://www.freedesktop.org/software/systemd/man/systemd.netdev.html)
+can get us sorted.  Briefly:
 
-    1.  Our 10-testlan.link file looks like this:
-       ```YAML
-       [Match]
-       #OriginalName=enp3s0
-       MACAddress=a8:a1:59:3f:b2:7b
-       [Link]
-       Description="Middle Port"
-       Name=test0
-       ````
-    2. 15-test0.network:
+1.  Our 10-testlan.link file looks like this:
+```YAML
+[Match]
+#OriginalName=enp3s0
+MACAddress=a8:a1:59:3f:b2:7b
+[Link]
+Description="Middle Port"
+Name=test0
+````
+2. 15-test0.network:
 ```YAML
 [Match]
 Name=test0
