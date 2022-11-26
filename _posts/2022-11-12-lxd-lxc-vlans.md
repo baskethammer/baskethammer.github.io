@@ -62,7 +62,7 @@ Bridge=tbr0
 VLAN=2-4094
 
 ```
-    2. Our 20-testbridge.netdev file looks like this:
+2. Our 20-testbridge.netdev file looks like this:
 ```YAML
 [NetDev]
 Name=tbr0
@@ -85,10 +85,10 @@ VLAN=direct
 VLAN=2-4094
 ```
 
-   Ideally, after rebooting, we will still have the working bridge (br0, with static
-   address) and a new bridge (no address, but vlan aware).  Simply starting the
-   service wasn't enough, and debugging the wait-online service seems like a
-   pain.  It seems to work:
+Ideally, after rebooting, we will still have the working bridge (br0, with static
+address) and a new bridge (no address, but vlan aware).  Simply starting the
+service wasn't enough, and debugging the wait-online service seems like a
+pain.  It seems to work:
 
 ```
 root@perineum:~# ip addr show
